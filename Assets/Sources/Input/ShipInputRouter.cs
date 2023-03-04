@@ -11,6 +11,8 @@ public class ShipInputRouter
     private DefaultGun _firstGunSlot;
     private DefaultGun _secondGunSlot;
 
+    private int livesRemaining = 3;
+
     public ShipInputRouter(Ship ship)
     {
         _input = new ShipInput();
@@ -26,9 +28,13 @@ public class ShipInputRouter
 
     public void OnDisable()
     {
-        _input.Disable();
-        _input.Ship.FirstSlotShoot.performed -= OnFirstSlootShoot;
-        _input.Ship.SecondSlotShoot.performed -= OnSecondSlootShoot;
+        livesRemaining -= 1;
+        if (livesRemaining <= 0)
+        {
+            _input.Disable();
+            _input.Ship.FirstSlotShoot.performed -= OnFirstSlootShoot;
+            _input.Ship.SecondSlotShoot.performed -= OnSecondSlootShoot;
+        }
     }
 
     public void Update()
